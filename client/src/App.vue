@@ -8,13 +8,13 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <button class="btn btn-light" @click="goToHome">Home</button>
+            <button class="btn btn-outline-light" @click="goToHome">Home</button>
           </li>
         </ul>
-        <input class="form-control my-2 my-lg-0 ml-2 mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+        <input class="form-control my-2 my-lg-0 ml-2 mr-sm-2" v-model="search" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-light mr-2 my-sm-0">Search</button>
         <button v-if="isLogin" class="btn btn-danger my-2 my-sm-0" @click="doLogout">Log out</button>
-        <button v-else class="btn btn-outline-success my-2 my-sm-0" @click="gotoLogin">Log in</button>
+        <button v-else class="btn btn-success my-2 my-sm-0" @click="gotoLogin">Log in</button>
       </div>
     </nav>
     <router-view/>
@@ -25,7 +25,12 @@
 import { mapState } from 'vuex'
 
 export default {
-   computed: {
+  data () {
+    return {
+      search: ''
+    }
+  },
+  computed: {
     ...mapState(['isLogin'])
   },
   created () {
@@ -64,6 +69,9 @@ export default {
             swal('You have successfully logged out!', { icon: 'success' })
           }
         })
+    },
+    searchBook () {
+      this.$store.dispatch('searchBook', this.search)
     }
   }
 }

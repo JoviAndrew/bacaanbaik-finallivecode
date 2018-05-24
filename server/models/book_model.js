@@ -7,6 +7,7 @@ let bookSchema = mongoose.Schema({
     title: String,
     author: String,
     publisher: String,
+    description: String,
     comments: [{ type: Schema.Types.ObjectId, ref: 'comment' }],
     likes: [{ type: Schema.Types.ObjectId, ref: 'user' }]
 }, {

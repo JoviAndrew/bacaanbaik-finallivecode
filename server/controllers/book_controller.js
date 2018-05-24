@@ -34,6 +34,7 @@ module.exports = {
           image: req.file.cloudStoragePublicUrl,
           title: req.body.title,
           author: req.body.author,
+          description: req.body.description,
           publisher: req.body.publisher,
           comments: [],
           likes: []

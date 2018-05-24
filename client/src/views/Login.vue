@@ -54,7 +54,7 @@ input{
 .login{
   display: flex;
   flex-direction: column;
-  border: 1px solid rgb(57, 183, 255);
+  border: 1px solid black;
   border-radius: 25px;
   margin: 3%
 }

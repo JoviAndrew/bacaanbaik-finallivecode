@@ -22,7 +22,41 @@
 
 <script>
 export default {
-
+  data () {
+    return {
+      username: '',
+      password: '',
+      confirm: '',
+      firstname: '',
+      lastname: ''
+    }
+  },
+  methods: {
+    register () {
+      let registerPayload = {
+        username: this.username,
+        password: this.password,
+        firstname: this.firstname,
+        lastname: this.lastname
+      }
+      if (this.firstname === '') {
+        swal('First name must be filled!', {icon: 'warning'})
+      } else if (this.lastname === '') {
+        swal('Last name must be filled!', {icon: 'warning'})
+      } else if (this.username === '') {
+        swal('Username must be filled!', {icon: 'warning'})
+      } else if (this.password === '') {
+        swal('Password must be filled!', {icon: 'warning'})
+      } else if (this.password !== this.confirm) {
+        swal('Password and confirm password is not the same!', {icon: 'warning'})
+      } else {
+        this.$store.dispatch('registerNewUser', registerPayload)
+      }
+    },
+    goToLogin () {
+      this.$router.push('/login')
+    }
+  }
 }
 </script>
 
@@ -33,7 +67,6 @@ export default {
   justify-content: center;
   align-items: center;
   margin: 3%;
-  border: 1px solid orange;
 }
 
 div.title {
@@ -45,7 +78,7 @@ div.title {
 .formBody {
   padding: 3%;
   width: 50%;
-  background-color: rgb(252, 79, 48);
+  background-color: rgb(0, 38, 95);
   color: white;
 }
 </style>

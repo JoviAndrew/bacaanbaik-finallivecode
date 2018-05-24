@@ -60,12 +60,12 @@ module.exports = {
               })
           } else {
             let token = jwt.sign({id: userData._id, username: userData.username}, process.env.SECRET)
-            res.json({
+            res.status(200).json({
                 message: 'Success login',
                 token: token,
-                username: result.username,
-                firstname: result.firstname,
-                lastname: result.lastname
+                username: userData.username,
+                firstname: userData.firstname,
+                lastname: userData.lastname
             })
           }
         })

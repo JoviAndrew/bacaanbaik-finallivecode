@@ -25,7 +25,7 @@ export default new Router({
       component: Register
     },
     {
-      path: '/book',
+      path: '/book/:id',
       name: 'book',
       component: Book
     }
