@@ -1,18 +1,17 @@
-const users = require('../models/users');
+const users = require('../models/user_model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const saltRounds = 10;
 
 module.exports = {
   registerUser: function(req, res){
-    let role = 'user'
     users.findOne({
       username: req.body.username
     })
     .then(function(userData){
-      if (userData != null) {
+      if (userData !== null) {
         res.status(400).json({
-            message: "username has been taken!",
+          message: "username has been taken!",
         })
       } else {
         let password = req.body.password
@@ -22,12 +21,18 @@ module.exports = {
             .create({
                 username: req.body.username,
                 password: hash,
-                role: role,
+                firstname: req.body.firstname,
+                lastname: req.body.lastname
             })
             .then(function(result){
+              let token = jwt.sign({id: result._id, username: result.username}, process.env.SECRET)
                 res.status(200).json({
                     message: "success register a new user",
-                    result: result
+                    result: result,
+                    token: token,
+                    username: result.username,
+                    firstname: result.firstname,
+                    lastname: result.lastname
                 })
             })
         }
@@ -58,8 +63,9 @@ module.exports = {
             res.json({
                 message: 'Success login',
                 token: token,
-                username: userData.username,
-                role: userData.role
+                username: result.username,
+                firstname: result.firstname,
+                lastname: result.lastname
             })
           }
         })

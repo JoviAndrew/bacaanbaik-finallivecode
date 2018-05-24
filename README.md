@@ -6,6 +6,15 @@ This project is created using `nodejs`, `vue` as the client framework and `expre
 
 To run the program locally, firstly you must clone this project, then type in `npm install`. To run the serve type `npm start` in the server folder. The server will run `nodemon` package. If you have not installed nodemon then, please install nodemon by typing `npm i nodemon`. To run the client, you must type in `npm run serve` to run it and type in the url in your browser. Usually its `http://localhost:8080`
 
+The environment variables used within this project are:
+    DB_USER=livecodeAdmin
+    DB_PASS=livecodePass
+    SECRET=hacktv8-livecode
+    PORT=3000
+    GCS_BUCKET=bacaan-baik
+    PROJ_ID=firebase-asset-management-syst
+    KEY_FILE_NAME=firebase-asset-management-syst-abd8bcf4cb5c.json
+
 Here are the lists of dependencies used in this project:
 #### Server
 
@@ -41,3 +50,6 @@ Here are the lists of dependencies used in this project:
 |POST|/book/add-book|Add new book|
 |POST|/book/add-comment/:id|Add Comment to a book|
 |PUT|/book/like/:id|Like a book|
+|POST|/book/show/:title|Search a book by its title|
+|DELETE|/book/delete/:id|Delete book|
+|DELETE|/book/delete-comment/:id|Delete comment|

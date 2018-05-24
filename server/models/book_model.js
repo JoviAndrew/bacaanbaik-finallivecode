@@ -3,6 +3,7 @@ const Schema = mongoose.Schema
 
 let bookSchema = mongoose.Schema({
     user: { type: Schema.Types.ObjectId, ref: 'user' },
+    image: String,
     title: String,
     author: String,
     publisher: String,
