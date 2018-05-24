@@ -47,9 +47,11 @@ Here are the lists of dependencies used in this project:
 | Action | Path | Description |
 |---------|:-----:|:----------:|
 |GET|/book/show|Get all books|
+|GET|/book/show/:id|Get one book data in detail|
 |POST|/book/add-book|Add new book|
 |POST|/book/add-comment/:id|Add Comment to a book|
 |PUT|/book/like/:id|Like a book|
+|PUT|/book/unlike/:id|Unlike a book|
 |POST|/book/show/:title|Search a book by its title|
 |DELETE|/book/delete/:id|Delete book|
 |DELETE|/book/delete-comment/:id|Delete comment|
