@@ -7,6 +7,7 @@ This project is created using `nodejs`, `vue` as the client framework and `expre
 To run the program locally, firstly you must clone this project, then type in `npm install` both in server and client folder. To run the serve type `npm start` in the server folder. The server will run `nodemon` package. If you have not installed nodemon then, please install nodemon by typing `npm i nodemon`. To run the client, you must type in `npm run serve` to run it and type in the url in your browser. Usually its `http://localhost:8080`
 
 The environment variables used within this project are:
+    
     DB_USER=livecodeAdmin
     DB_PASS=livecodePass
     SECRET=hacktv8-livecode
