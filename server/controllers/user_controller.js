@@ -59,7 +59,7 @@ module.exports = {
                   message: 'incorrect username or password'
               })
           } else {
-            let token = jwt.sign({id: userData._id}, process.env.SECRET)
+            let token = jwt.sign({id: userData._id, username: userData.username}, process.env.SECRET)
             res.json({
                 message: 'Success login',
                 token: token,

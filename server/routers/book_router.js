@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { getAllBooks, addBook, addComment, searchBook } = require('../controllers/book_controller')
+const { getAllBooks, addBook, addComment, searchBook, likeBook, unlikeBook, deleteComment, deleteBook, getOneBook } = require('../controllers/book_controller')
 const uploadFile = require('../middleware/upload')
 
 router.get('/show', getAllBooks)
@@ -11,12 +11,16 @@ router.post('/add-book',
 
 router.post('/add-comment/:id', addComment)
 
-router.put('/like/:id')
+router.put('/like/:id', likeBook)
+
+router.put('/unlike/:id', unlikeBook)
+
+router.get('/show/:id', getOneBook)
 
 router.post('/show/:title', searchBook)
 
-router.delete('/delete/:id')
+router.delete('/delete/:id', deleteBook)
 
-router.delete('/delete-comment/:id')
+router.delete('/delete-comment/:id', deleteComment)
 
 module.exports = router

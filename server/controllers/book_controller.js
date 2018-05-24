@@ -53,6 +53,32 @@ module.exports = {
       }
     })
   },
+  getOneBook (req, res) {
+    let id = req.params.id
+    book.findById({
+      _id: id
+    })
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'user'
+      }
+    })
+    .populate('user')
+    .exec()
+    .then(function (bookData) {
+      res.status(200).json({
+        message: 'Success get book detail',
+        bookData
+      })
+    })
+    .catch(function (err) {
+      res.status(400).json({
+        message: err.message,
+        err
+      })
+    })
+  },
   addComment (req, res) {
     const token = req.headers.token
     const id = req.params.id
@@ -66,7 +92,8 @@ module.exports = {
 			else {
         comment.create({
           user: result.id,
-          comment: req.body.comment
+          comment: req.body.comment,
+          bookId: id
         })
         .then(function (response) {
           book.bulkWrite([{
@@ -102,7 +129,7 @@ module.exports = {
       title: req.params.title
     })
     .then(function (bookData) {
-      if (!bookData) {
+      if (bookData.length === 0) {
         res.status(400).json({
           message: 'sorry the book you are looking for cannot be found!'
         })
@@ -121,6 +148,139 @@ module.exports = {
     })
   },
   likeBook (req, res) {
-    
+    const token = req.headers.token
+    let bookId = req.params.id
+    jwt.verify(token, process.env.SECRET, function(err, result){
+			if (err) {
+        res.send({
+          err: err,
+          message: err.message
+        })
+			}
+			else {
+        book.bulkWrite([{
+          updateOne: {
+            filter: { '_id': bookId },
+            update: { $addToSet: { likes: result.id}}
+          }
+        }])
+        .then(function (response) {
+          res.status(201).json({
+            message: 'Successfully like a book',
+            response
+          })
+        })
+        .catch(function (err) {
+          res.status(400).json({
+            message: err.message,
+            err
+          })
+        })
+      }
+    })
+  },
+  unlikeBook (req, res) {
+    const token = req.headers.token
+    let bookId = req.params.id
+    jwt.verify(token, process.env.SECRET, function(err, result){
+			if (err) {
+        res.send({
+          err: err,
+          message: err.message
+        })
+			}
+			else {
+        book.bulkWrite([{
+          updateOne: {
+            filter: { '_id': bookId },
+            update: { $pull: { likes: result.id}}
+          }
+        }])
+        .then(function (response) {
+          res.status(201).json({
+            message: 'Successfully dislike a book',
+            response
+          })
+        })
+        .catch(function (err) {
+          res.status(400).json({
+            message: err.message,
+            err
+          })
+        })
+      }
+    })
+  },
+  deleteBook (req, res) {
+    let id = req.params.id
+    const token = req.headers.token
+    jwt.verify(token, process.env.SECRET, function(err, result){
+			if (err) {
+        res.send({
+          err: err,
+          message: err.message
+        })
+			}
+			else {
+        book.deleteOne({
+          _id: id,
+          user: result.id
+        })
+        .then(function (response) {
+          comment.deleteMany({
+              bookId: id
+          })
+          .then(function (responseDeleteMany) {
+            res.status(200).json({
+              message: 'Successfully deleted a book!',
+              response
+            })
+          })
+          .catch(function (err) {
+            res.status(400).json({
+              message: err.message,
+              err
+            })
+          })
+        })
+        .catch(function (err) {
+          res.status(400).json({
+            message: err.message,
+            err
+          })
+        })
+      }
+    })
+  },
+  deleteComment (req, res) {
+    const commentId = req.params.id
+    const bookId = req.headers.id
+    const token = req.headers.token
+    jwt.verify(token, process.env.SECRET, function(err, result){
+			if (err) {
+        res.send({
+          err: err,
+          message: err.message
+        })
+			}
+			else {
+        comment.deleteOne({
+          _id: commentId,
+          user: result.id
+        })
+        .then(function (response) {
+          res.status(200).json({
+            message: 'Successfully deleted a comment',
+            response
+          })
+        })
+        .catch(function (err) {
+          res.status(400).json({
+            message: err.message,
+            err
+          })
+        })
+      }
+    })
   }
 }
